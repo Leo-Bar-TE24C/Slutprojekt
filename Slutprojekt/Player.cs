@@ -1,6 +1,6 @@
 public class Player
 {
-    int Health;
-    bool isDodgeing;
-    
+    public int Health;
+    public bool isDodgeing;
+
 }

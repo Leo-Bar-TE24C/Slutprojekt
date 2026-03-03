@@ -1,6 +1,6 @@
 public class Toolbox
 {
-    void Combat()
+    public static void Combat()
     {
         // player
         {
