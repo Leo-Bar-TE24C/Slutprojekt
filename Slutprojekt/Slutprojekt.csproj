@@ -11,4 +11,9 @@
     <PackageReference Include="Raylib-cs" Version="7.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="*.png" CopyToOutputDirectory="Always"/>
+    <Content Include="*.gif" CopyToOutputDirectory="Always"/>
+  </ItemGroup>
+
 </Project>
