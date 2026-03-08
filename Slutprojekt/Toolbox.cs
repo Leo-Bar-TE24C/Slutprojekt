@@ -1,6 +1,10 @@
+using System.Runtime.CompilerServices;
+using Raylib_cs;
+
 public class Toolbox
 {
-    public static void Combat()
+   
+    public static void Combat(Enemy enemy, Player player)
     {
         // player
         {
@@ -11,10 +15,11 @@ public class Toolbox
     // if punch and no block or dodge deal damage
         }
 
-        // enemy
+    //    enemy
+        if(enemy.isAttacking==false)
         {
-            // pick random action from moveset 
-            // stun if hit
+        Enemy.Attack(enemy.moveset, enemy.spritesheet);
+            enemy.isAttacking=true;
         }
     }
 }

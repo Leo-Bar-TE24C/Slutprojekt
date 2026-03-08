@@ -5,6 +5,11 @@ Raylib.SetTargetFPS(60);
 
 Texture2D ring = Raylib.LoadTexture(@"PunchOutRing.png");
 
+Enemy glassJoe = new Enemy();
+Player litleMac = new Player();
+
+List<Enemy> enemyList = [glassJoe, ];
+
 while(Raylib.WindowShouldClose() == false)
 {
 
@@ -17,7 +22,9 @@ while(Raylib.WindowShouldClose() == false)
 
     Raylib.DrawTextureEx(ring,new(0,0),0,4.45f,Color.White);
 
-    // play animations based on combat
+    Player.Idle(litleMac.spritesheet);
+
+    Toolbox.Combat(glassJoe, litleMac);
 
     Raylib.EndDrawing();
 }
