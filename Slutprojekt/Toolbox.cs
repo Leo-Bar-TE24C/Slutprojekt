@@ -5,18 +5,28 @@ public class Toolbox
 {
    
     public static void Combat(Enemy enemy, Player player)
-    {
-        // player
-        {
-             // if to the sides dodge (take no damage)
-    // if back block (take less damage)
-    // if spacebar hit punch
-    // if up and spacebar high punch
-    // if punch and no block or dodge deal damage
-        }
+    {   
 
     //    enemy
-    
-        (enemy.animState,enemy.isAttacking,enemy.move)=Enemy.Attack(enemy.moveset, enemy.spritesheet,enemy.animState,enemy.isAttacking,enemy.move);
+        
+        enemy =Enemy.Attack(enemy);
+        
+            
+        // player
+        if(player.stunned == false)
+        {
+            if(Raylib.IsKeyPressed(KeyboardKey.J)==true || player.isAttacking)
+            {
+                player.animIdle=0;
+            }
+            else if(Raylib.IsKeyPressed(KeyboardKey.K)==true || player.isAttacking)
+            {
+                player.animIdle=0;
+            }
+            else
+            {
+                player = Player.Idle(player);
+            }
+        }
     }
 }

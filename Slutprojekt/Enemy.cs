@@ -16,6 +16,8 @@ public class Enemy
 
     public int move;
 
+    public int cooldown;
+
     public Enemy()
     {
         spritesheet = Raylib.LoadTexture(@"PunchOutGlassJoe.gif");
@@ -26,92 +28,96 @@ public class Enemy
         animState = 0;
     }
 
-    public static (int, bool, int) Attack(List<string> moveset, Texture2D spritesheet, int animState, bool isAttacking, int move)
+    public static Enemy Attack(Enemy enemy)
     {
-        if (isAttacking == false)
+        if (enemy.isAttacking == false)
         {
-            move = Random.Shared.Next(moveset.Count);
-            isAttacking = true;
+            enemy.move = Random.Shared.Next(enemy.moveset.Count);
+            enemy.isAttacking = true;
         }
         
 
-        if (moveset[move] == "Right hook")
+        if (enemy.moveset[enemy.move] == "Right hook")
         {
-            (animState,isAttacking) = RightHook(spritesheet, animState);
+            enemy = RightHook(enemy);
         }
-        else if (moveset[move] == "Viva la france")
+        else if (enemy.moveset[enemy.move] == "Viva la france")
         {
-            (animState,isAttacking) = VivaLaFrance(spritesheet, animState);
+            enemy = VivaLaFrance(enemy);
         }
-        return (animState, isAttacking, move);
+        return enemy;
     }
 
-    public static (int,bool) RightHook(Texture2D spritesheet, int animState)
+    public static Enemy RightHook(Enemy enemy)
     {
         Vector2 pos = new(450, 600);
         int scale = 5;
-        bool isAttacking=true;
 
-        if (animState <= 20)
+        if (enemy.animState <= 20)
         {
-            Raylib.DrawTexturePro(spritesheet, new(71, 770, 35, 89), new(pos, 35 * scale, 89 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(enemy.spritesheet, new(71, 770, 35, 89), new(pos, 35 * scale, 89 * scale), new(71 / 2, 770 / 2), 0, Color.White);
         }
-        else if (animState > 20 && animState <= 40)
+        else if (enemy.animState > 20 && enemy.animState <= 40)
         {
-            Raylib.DrawTexturePro(spritesheet, new(135, 770, 35, 89), new(pos, 35 * scale, 89 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(enemy.spritesheet, new(135, 770, 35, 89), new(pos, 35 * scale, 89 * scale), new(71 / 2, 770 / 2), 0, Color.White);
         }
-        else if (animState > 40 && animState <= 60)
+        else if (enemy.animState > 40 && enemy.animState <= 60)
         {
-            Raylib.DrawTexturePro(spritesheet, new(202, 766, 39, 93), new(pos, 39 * scale, 93 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(enemy.spritesheet, new(202, 766, 39, 93), new(pos, 39 * scale, 93 * scale), new(71 / 2, 770 / 2), 0, Color.White);
         }
 
-        if (animState < 60)
+        if (enemy.animState < 60)
         {
 
-            animState++;
-            isAttacking=true;
+            enemy.animState++;
+            enemy.isAttacking=true;
             
         }
-        else if (animState >= 60)
+        else if (enemy.animState >= 60)
         {
-            animState = 0;
-            isAttacking=false;
+            enemy.animState = 0;
+            enemy.isAttacking=false;
         }
-        return (animState,isAttacking);
+        return enemy;
     }
 
-    public static (int, bool) VivaLaFrance(Texture2D spritesheet, int animState)
+    public static Enemy VivaLaFrance(Enemy enemy)
     {
         Vector2 pos = new(450, 600);
         int scale = 5;
-                bool isAttacking=true;
+        
 
         
-        if (animState <= 20)
+        if (enemy.animState <= 20)
         {
-            Raylib.DrawTexturePro(spritesheet, new(71, 656, 40, 100), new(pos, 40 * scale, 100 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(enemy.spritesheet, new(71, 656, 40, 100), new(pos, 40 * scale, 100 * scale), new(71 / 2, 770 / 2), 0, Color.White);
         }
-        else if (animState > 20 && animState <= 40)
+        else if (enemy.animState > 20 && enemy.animState <= 40)
         {
-            Raylib.DrawTexturePro(spritesheet, new(130, 656, 40, 100), new(pos, 40 * scale, 100 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(enemy.spritesheet, new(130, 656, 40, 100), new(pos, 40 * scale, 100 * scale), new(71 / 2, 770 / 2), 0, Color.White);
         }
-        else if (animState > 40 && animState <= 60)
+        else if (enemy.animState > 40 && enemy.animState <= 60)
         {
-            Raylib.DrawTexturePro(spritesheet, new(190, 656, 39, 100), new(pos, 39 * scale, 100 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(enemy.spritesheet, new(190, 656, 39, 100), new(pos, 39 * scale, 100 * scale), new(71 / 2, 770 / 2), 0, Color.White);
         }
         
-        if (animState < 60)
+        if (enemy.animState < 60)
         {
 
-            animState++;
-            isAttacking=true;
+            enemy.animState++;
+            enemy.isAttacking=true;
             
         }
-        else if (animState >= 60)
+        else if (enemy.animState >= 60)
         {
-            animState = 0;
-            isAttacking=false;
+            enemy.animState = 0;
+            enemy.isAttacking=false;
         }
-        return (animState,isAttacking);
+        return enemy;
+    }
+
+    public static Enemy Idle(Enemy enemy)
+    {
+        return enemy;
     }
 }
