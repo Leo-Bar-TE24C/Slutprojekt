@@ -22,7 +22,8 @@ while(Raylib.WindowShouldClose() == false)
 
     Raylib.DrawTextureEx(ring,new(0,0),0,4.45f,Color.White);
 
-    Player.Idle(litleMac.spritesheet);
+    // Player.Idle(litleMac.spritesheet);
+    // glassJoe.animState=Enemy.RightHook(glassJoe.spritesheet, glassJoe.animState);
 
     Toolbox.Combat(glassJoe, litleMac);
 

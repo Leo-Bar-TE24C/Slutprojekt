@@ -16,10 +16,7 @@ public class Toolbox
         }
 
     //    enemy
-        if(enemy.isAttacking==false)
-        {
-        Enemy.Attack(enemy.moveset, enemy.spritesheet);
-            enemy.isAttacking=true;
-        }
+    
+        (enemy.animState,enemy.isAttacking,enemy.move)=Enemy.Attack(enemy.moveset, enemy.spritesheet,enemy.animState,enemy.isAttacking,enemy.move);
     }
 }

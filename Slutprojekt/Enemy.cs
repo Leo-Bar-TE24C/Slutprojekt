@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Raylib_cs;
 public class Enemy
 {
-    
+
     public int dmg;
     public int hp;
     public List<string> moveset;
@@ -12,6 +12,10 @@ public class Enemy
 
     public bool isAttacking;
 
+    public int animState;
+
+    public int move;
+
     public Enemy()
     {
         spritesheet = Raylib.LoadTexture(@"PunchOutGlassJoe.gif");
@@ -19,46 +23,118 @@ public class Enemy
         hp = 150;
         moveset = ["Right hook", "Left hook", "Viva la france"];
         isAttacking = false;
+        animState = 0;
     }
-    
-    public static void Attack(List<string> moveset, Texture2D spritesheet)
+
+    public static (int, bool, int) Attack(List<string> moveset, Texture2D spritesheet, int animState, bool isAttacking, int move)
     {
-        int move = Random.Shared.Next(moveset.Count);
+        if (isAttacking == false)
+        {
+            move = Random.Shared.Next(moveset.Count);
+            isAttacking = true;
+        }
+        
 
-        if(moveset[move] == "Right hook")
+        if (moveset[move] == "Right hook")
         {
-            RightHook(spritesheet);
+            (animState,isAttacking) = RightHook(spritesheet, animState);
         }
-        else if (moveset[move] ==  "Left hook" )
+        else if (moveset[move] == "Left hook")
         {
-            
+            (animState,isAttacking) = LeftHook(spritesheet, animState);
         }
-        else if (moveset[move] ==  "Viva la france" )
+        else if (moveset[move] == "Viva la france")
         {
-            
+            (animState,isAttacking) = VivaLaFrance(spritesheet, animState);
         }
+        return (animState, isAttacking, move);
     }
 
-    public static void RightHook(Texture2D spritesheet)
+    public static (int,bool) RightHook(Texture2D spritesheet, int animState)
     {
         Vector2 pos = new(450, 600);
-        int scale = 5 ;
-        
+        int scale = 5;
+        bool isAttacking=true;
 
-        Raylib.DrawTexturePro(spritesheet,new(71,770,35,89),new(pos,35*scale,89*scale),new(71/2,770/2),0,Color.White);
-        Raylib.DrawTexturePro(spritesheet,new(135,770,35,89),new(pos,35*scale,89*scale),new(71/2,770/2),0,Color.White);
-        Raylib.DrawTexturePro(spritesheet,new(202,766,39,93),new(pos,39*scale,93*scale),new(71/2,770/2),0,Color.White);
+        if (animState <= 20)
+        {
+            Raylib.DrawTexturePro(spritesheet, new(71, 770, 35, 89), new(pos, 35 * scale, 89 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+        }
+        else if (animState > 20 && animState <= 40)
+        {
+            Raylib.DrawTexturePro(spritesheet, new(135, 770, 35, 89), new(pos, 35 * scale, 89 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+        }
+        else if (animState > 40 && animState <= 60)
+        {
+            Raylib.DrawTexturePro(spritesheet, new(202, 766, 39, 93), new(pos, 39 * scale, 93 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+        }
 
+        if (animState < 60)
+        {
 
+            animState++;
+            isAttacking=true;
+            
+        }
+        else if (animState >= 60)
+        {
+            animState = 0;
+            isAttacking=false;
+        }
+        return (animState,isAttacking);
     }
 
-    public static void LeftHook()
+    public static (int, bool) LeftHook(Texture2D spritesheet, int animState)
     {
-        
+                bool isAttacking=true;
+
+        if (animState < 60)
+        {
+
+            animState++;
+            isAttacking=true;
+            
+        }
+        else if (animState >= 60)
+        {
+            animState = 0;
+            isAttacking=false;
+        }
+        return (animState,isAttacking);
     }
 
-    public static void VivaLaFrance()
+    public static (int, bool) VivaLaFrance(Texture2D spritesheet, int animState)
     {
+        Vector2 pos = new(450, 600);
+        int scale = 5;
+                bool isAttacking=true;
+
         
+        if (animState <= 20)
+        {
+            Raylib.DrawTexturePro(spritesheet, new(71, 770, 35, 89), new(pos, 35 * scale, 89 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+        }
+        else if (animState > 20 && animState <= 40)
+        {
+            Raylib.DrawTexturePro(spritesheet, new(135, 770, 35, 89), new(pos, 35 * scale, 89 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+        }
+        else if (animState > 40 && animState <= 60)
+        {
+            Raylib.DrawTexturePro(spritesheet, new(202, 766, 39, 93), new(pos, 39 * scale, 93 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+        }
+        
+        if (animState < 60)
+        {
+
+            animState++;
+            isAttacking=true;
+            
+        }
+        else if (animState >= 60)
+        {
+            animState = 0;
+            isAttacking=false;
+        }
+        return (animState,isAttacking);
     }
 }
