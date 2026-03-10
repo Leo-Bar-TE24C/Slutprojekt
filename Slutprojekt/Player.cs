@@ -12,6 +12,9 @@ public class Player
     public bool isAttacking;
     public int animIdle;
     public int idleSide;
+    public Vector2 pos;
+    public int scale;
+    public int attack;
 
     public Player()
     {
@@ -25,20 +28,22 @@ public class Player
         isAttacking = false;
         animIdle = 0;
         idleSide = 0;
+        pos = new(450, 500);
+        scale = 5;
+        attack = 0;
     }
 
     public static Player Idle(Player player)
     {
-        Vector2 pos = new(450, 500);
-        int scale = 5;
+        player.pos.X = 450;
 
         if (player.idleSide >= 20 && player.idleSide <= 60)
         {
-            pos.X += 10;
+            player.pos.X += 10;
         }
         else if (player.idleSide >= 100 && player.idleSide <= 1400)
         {
-            pos.X -= 10;
+            player.pos.X -= 10;
         }
 
         if (player.idleSide >= 120)
@@ -52,11 +57,11 @@ public class Player
 
         if (player.animIdle <= 20)
         {
-            Raylib.DrawTexturePro(player.spritesheet, new(88, 80, 24, 76), new(pos, 24 * scale, 76 * scale), new(24 / 2, 76 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(player.spritesheet, new(88, 80, 24, 76), new(player.pos, 24 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
         }
         else if (player.animIdle <= 40 && player.animIdle >= 20)
         {
-            Raylib.DrawTexturePro(player.spritesheet, new(128, 80, 24, 76), new(pos, 24 * scale, 76 * scale), new(24 / 2, 76 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(player.spritesheet, new(128, 80, 24, 76), new(player.pos, 24 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
         }
 
         if (player.animIdle >= 40)
@@ -69,23 +74,57 @@ public class Player
         }
         return player;
     }
-    public static int HighHitLeft(Player player)
+    public static Player HighHitLeft(Player player)
     {
-        return player.animState;
+        return player;
     }
 
-    public static int HitLeft(Player player)
+    public static Player HitLeft(Player player)
     {
-        return player.animState;
+        if (player.animState <= 20)
+        {
+            Raylib.DrawTexturePro(player.spritesheet, new(407, 80, -25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+        }
+
+        if(player.animState >= 20)
+        {
+            player.animState=0;
+            player.isAttacking=false;
+        }
+        else
+        {
+            player.animState++;
+            player.isAttacking=true;
+            player.attack = 0;
+        }
+
+        return player;
     }
 
-    public static int HighHitRight(Player player)
+    public static Player HighHitRight(Player player)
     {
-        return player.animState;
+        return player;
     }
 
-    public static int HitRight(Player player)
+    public static Player HitRight(Player player)
     {
-        return player.animState;
+        if (player.animState <= 20)
+        {
+            Raylib.DrawTexturePro(player.spritesheet, new(407, 80, 25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+        }
+
+        if(player.animState >= 20)
+        {
+            player.animState=0;
+            player.isAttacking=false;
+        }
+        else
+        {
+            player.animState++;
+            player.isAttacking=true;
+            player.attack = 2;
+        }
+
+        return player;
     }
 }

@@ -10,6 +10,8 @@ Player litleMac = new Player();
 
 List<Enemy> enemyList = [glassJoe, ];
 
+
+
 while(Raylib.WindowShouldClose() == false)
 {
 
@@ -24,6 +26,8 @@ while(Raylib.WindowShouldClose() == false)
 
     // Player.Idle(litleMac.spritesheet);
     // glassJoe.animState=Enemy.RightHook(glassJoe.spritesheet, glassJoe.animState);
+    // Enemy.Idle(glassJoe);
+    // Player.HitRight(litleMac);
 
     Toolbox.Combat(glassJoe, litleMac);
 
