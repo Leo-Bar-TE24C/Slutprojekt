@@ -24,3 +24,4 @@ C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\obj
 C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\bin\Debug\net9.0\LittleMac.png
 C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\bin\Debug\net9.0\PunchOutRing.png
 C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\bin\Debug\net9.0\PunchOutGlassJoe.gif
+C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\bin\Debug\net9.0\VonKaizer.gif

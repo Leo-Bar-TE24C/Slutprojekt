@@ -76,6 +76,26 @@ public class Player
     }
     public static Player HighHitLeft(Player player)
     {
+        player.pos.Y = 350;
+        if (player.animState <= 20 )
+        {
+        Raylib.DrawTexturePro(player.spritesheet, new(88, 80+75, 24, 76), new(player.pos, 24 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+        }
+
+        if(player.animState >= 20)
+        {
+            player.animState=0;
+            player.isAttacking=false;
+            player.pos.Y = 500;
+            player.attack = 0;
+        }
+        else
+        {
+            player.animState++;
+            player.isAttacking=true;
+            player.attack = 1;
+        }
+
         return player;
     }
 

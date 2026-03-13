@@ -27,7 +27,7 @@ public class Toolbox
             if (Raylib.IsKeyPressed(KeyboardKey.J) == true || (player.isAttacking == true && (player.attack == 0 || player.attack == 1)))
             {
                 player.animIdle = 0;
-                if (Raylib.IsKeyPressed(KeyboardKey.W) == true || player.attack == 1)
+                if (Raylib.IsKeyDown(KeyboardKey.W) == true || player.attack == 1)
                 {
                     player = Player.HighHitLeft(player);
                 }

@@ -28,6 +28,7 @@ while(Raylib.WindowShouldClose() == false)
     // glassJoe.animState=Enemy.RightHook(glassJoe.spritesheet, glassJoe.animState);
     // Enemy.Idle(glassJoe);
     // Player.HitRight(litleMac);
+    // Player.HighHitLeft(litleMac);
 
     Toolbox.Combat(glassJoe, litleMac);
 
