@@ -22,6 +22,7 @@ public class Enemy
 
     public int animIdle;
 
+
     public Enemy()
     {
         spritesheet = Raylib.LoadTexture(@"PunchOutGlassJoe.gif");
@@ -31,10 +32,10 @@ public class Enemy
         isAttacking = false;
         animState = 0;
         animIdle = 0;
-        cooldown = 120;
+        cooldown = 60;
     }
 
-    public static Enemy Attack(Enemy enemy)
+    public static (Enemy, Player) Attack(Enemy enemy, Player player)
     {
         if (enemy.isAttacking == false)
         {
@@ -45,16 +46,16 @@ public class Enemy
 
         if (enemy.moveset[enemy.move] == "Right hook")
         {
-            enemy = RightHook(enemy);
+            (enemy, player) = RightHook(enemy, player);
         }
         else if (enemy.moveset[enemy.move] == "Viva la france")
         {
-            enemy = VivaLaFrance(enemy);
+            (enemy, player) = VivaLaFrance(enemy, player);
         }
-        return enemy;
+        return (enemy, player);
     }
 
-    public static Enemy RightHook(Enemy enemy)
+    public static (Enemy, Player) RightHook(Enemy enemy, Player player)
     {
         Vector2 pos = new(450, 600);
         int scale = 5;
@@ -66,6 +67,7 @@ public class Enemy
         else if (enemy.animState > 20 && enemy.animState <= 40)
         {
             Raylib.DrawTexturePro(enemy.spritesheet, new(135, 770, 35, 89), new(pos, 35 * scale, 89 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+            player = Enemy.DealDMG(enemy,player);
         }
         else if (enemy.animState > 40 && enemy.animState <= 60)
         {
@@ -86,10 +88,10 @@ public class Enemy
             enemy.timeSince=0;
             enemy.cooldown = Random.Shared.Next(120,721);
         }
-        return enemy;
+        return (enemy, player);
     }
 
-    public static Enemy VivaLaFrance(Enemy enemy)
+    public static (Enemy, Player) VivaLaFrance(Enemy enemy, Player player)
     {
         Vector2 pos = new(450, 600);
         int scale = 5;
@@ -103,6 +105,7 @@ public class Enemy
         else if (enemy.animState > 20 && enemy.animState <= 40)
         {
             Raylib.DrawTexturePro(enemy.spritesheet, new(130, 656, 40, 100), new(pos, 40 * scale, 100 * scale), new(71 / 2, 770 / 2), 0, Color.White);
+            player = Enemy.DealDMG(enemy,player);
         }
         else if (enemy.animState > 40 && enemy.animState <= 60)
         {
@@ -123,7 +126,7 @@ public class Enemy
             enemy.timeSince=0;
             enemy.cooldown = Random.Shared.Next(120,721);
         }
-        return enemy;
+        return (enemy, player);
     }
 
     public static Enemy Idle(Enemy enemy)
@@ -155,5 +158,15 @@ public class Enemy
         }
 
         return enemy;
+    }
+
+    public static Player DealDMG(Enemy enemy, Player player)
+    {
+        if((player.isDodgeingL || player.isDodgeingR || player.stunned)==false)
+        {
+            player.hp -= enemy.dmg;
+            player.stunTime = 20;
+        }
+        return player;
     }
 }

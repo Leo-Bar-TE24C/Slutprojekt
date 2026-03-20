@@ -29,6 +29,9 @@ while(Raylib.WindowShouldClose() == false)
     // Enemy.Idle(glassJoe);
     // Player.HitRight(litleMac);
     // Player.HighHitLeft(litleMac);
+    
+    // Raylib.DrawTexturePro(player.spritesheet, new(407 - 40, 80, -25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+
 
     Toolbox.Combat(glassJoe, litleMac);
 

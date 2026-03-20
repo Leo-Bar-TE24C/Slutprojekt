@@ -1,13 +1,16 @@
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Raylib_cs;
 public class Player
 {
     public int hp;
     public int lowDmg;
     public int highDmg;
-    public bool isDodgeing;
+    public bool isDodgeingR;
+    public bool isDodgeingL;
     public Texture2D spritesheet;
     public bool stunned;
+    public int stunTime;
     public int animState;
     public bool isAttacking;
     public int animIdle;
@@ -15,11 +18,13 @@ public class Player
     public Vector2 pos;
     public int scale;
     public int attack;
+    public bool isBlocking;
 
     public Player()
     {
         spritesheet = Raylib.LoadTexture(@"LittleMac.png");
-        isDodgeing = false;
+        isDodgeingR = false;
+        isDodgeingL = false;
         lowDmg = 1;
         highDmg = 3;
         hp = 100;
@@ -31,6 +36,8 @@ public class Player
         pos = new(450, 500);
         scale = 5;
         attack = 0;
+        isBlocking = false;
+        stunTime=0;
     }
 
     public static Player Idle(Player player)
@@ -77,22 +84,22 @@ public class Player
     public static Player HighHitLeft(Player player)
     {
         player.pos.Y = 350;
-        if (player.animState <= 20 )
+        if (player.animState <= 20)
         {
-        Raylib.DrawTexturePro(player.spritesheet, new(88, 80+75, 24, 76), new(player.pos, 24 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(player.spritesheet, new(88, 80 + 75, 24, 76), new(player.pos, 24 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
         }
 
-        if(player.animState >= 20)
+        if (player.animState >= 20)
         {
-            player.animState=0;
-            player.isAttacking=false;
+            player.animState = 0;
+            player.isAttacking = false;
             player.pos.Y = 500;
             player.attack = 0;
         }
         else
         {
             player.animState++;
-            player.isAttacking=true;
+            player.isAttacking = true;
             player.attack = 1;
         }
 
@@ -106,15 +113,15 @@ public class Player
             Raylib.DrawTexturePro(player.spritesheet, new(407, 80, -25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
         }
 
-        if(player.animState >= 20)
+        if (player.animState >= 20)
         {
-            player.animState=0;
-            player.isAttacking=false;
+            player.animState = 0;
+            player.isAttacking = false;
         }
         else
         {
             player.animState++;
-            player.isAttacking=true;
+            player.isAttacking = true;
             player.attack = 0;
         }
 
@@ -123,6 +130,27 @@ public class Player
 
     public static Player HighHitRight(Player player)
     {
+
+        player.pos.Y = 350;
+        if (player.animState <= 20)
+        {
+            Raylib.DrawTexturePro(player.spritesheet, new(88, 80 + 75, -24, 76), new(player.pos, 24 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+        }
+
+        if (player.animState >= 20)
+        {
+            player.animState = 0;
+            player.isAttacking = false;
+            player.pos.Y = 500;
+            player.attack = 0;
+        }
+        else
+        {
+            player.animState++;
+            player.isAttacking = true;
+            player.attack = 3;
+        }
+
         return player;
     }
 
@@ -133,18 +161,77 @@ public class Player
             Raylib.DrawTexturePro(player.spritesheet, new(407, 80, 25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
         }
 
-        if(player.animState >= 20)
+        if (player.animState >= 20)
         {
-            player.animState=0;
-            player.isAttacking=false;
+            player.animState = 0;
+            player.isAttacking = false;
         }
         else
         {
             player.animState++;
-            player.isAttacking=true;
+            player.isAttacking = true;
             player.attack = 2;
         }
 
+        return player;
+    }
+
+    public static Player Dodge(Player player)
+    {
+        if (player.animState <= 30)
+        {
+            if (player.isDodgeingL == true)
+            {
+                player.pos.X = 350;
+                Raylib.DrawTexturePro(player.spritesheet, new(407 - 40, 80, 25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+            }
+            else if (player.isDodgeingR == true)
+            {
+                player.pos.X = 550;
+                Raylib.DrawTexturePro(player.spritesheet, new(407 - 40, 80, -25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+            }
+        }
+
+        if(player.animState>=30)
+        {
+            player.animState = 0;
+            player.isDodgeingL = false;
+            player.isDodgeingR = false;
+            player.pos.X =450;
+        }
+        else
+        {
+            player.animState++;
+        }
+        return player;
+    }
+
+    public static Player Block(Player player)
+    {
+        if (Raylib.IsKeyDown(KeyboardKey.S)==true)
+        {
+            player.isBlocking=true;
+            Raylib.DrawTexturePro(player.spritesheet, new(407 - 40-80, 80, 25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+
+        }
+        else
+        {
+            player.isBlocking = false;
+        }
+        return player;
+    }
+
+    public static Player StunCheck(Player player)
+    {
+        if (player.stunTime!=0)
+        {
+            player.stunTime--;
+            player.stunned = true;
+        }
+        else
+        {
+            player.stunned = false;
+        }
         return player;
     }
 }
