@@ -22,6 +22,8 @@ public class Enemy
 
     public int animIdle;
 
+    public int maxHealth;
+
 
     public Enemy()
     {
@@ -33,6 +35,7 @@ public class Enemy
         animState = 0;
         animIdle = 0;
         cooldown = 60;
+        maxHealth=hp;
     }
 
     public static (Enemy, Player) Attack(Enemy enemy, Player player)

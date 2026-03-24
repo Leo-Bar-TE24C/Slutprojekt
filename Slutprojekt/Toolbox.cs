@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using Raylib_cs;
 
@@ -8,12 +9,12 @@ public class Toolbox
     {
 
         //    enemy
-        
+
 
         if (enemy.isAttacking == true || enemy.timeSince >= enemy.cooldown)
         {
             enemy.animIdle = 0;
-            (enemy,player) = Enemy.Attack(enemy,player);
+            (enemy, player) = Enemy.Attack(enemy, player);
         }
         else
         {
@@ -21,9 +22,11 @@ public class Toolbox
             enemy = Enemy.Idle(enemy);
         }
 
-
         // player
         player = Toolbox.PayerChecks(player);
+        
+        Healthbar(342, player.hp, player.maxHealth, false);
+        // Healthbar(753, enemy.hp, enemy.maxHealth, true);
 
         return (enemy, player);
     }
@@ -58,7 +61,7 @@ public class Toolbox
                     player = Player.HitRight(player);
                 }
             }
-            else if ((Raylib.IsKeyPressed(KeyboardKey.A) || player.isDodgeingL ) == true)
+            else if ((Raylib.IsKeyPressed(KeyboardKey.A) || player.isDodgeingL) == true)
             {
                 player.animIdle = 0;
                 player.isDodgeingL = true;
@@ -83,4 +86,39 @@ public class Toolbox
 
         return player;
     }
+    public static void Healthbar(int posX, int health,int maxHealth, bool reverse)
+    {
+        // max widht = 190
+        float x = 190 - ((health/maxHealth)*190);
+        int width = (int)x;
+        
+
+        if (reverse==false)
+        {
+        Raylib.DrawRectangle(posX, 65, width, 30, Color.Black);
+        }
+        else
+        {
+        Raylib.DrawRectangle(posX-width, 65, width, 30, Color.Black);  
+        }   
+        Raylib.DrawRectangle(0,0,200,40, Color.Black);
+        Raylib.DrawText($"{x}",0,0,30, Color.White);
+    }
+
+    public static void DisplayMousePos()
+    {
+        Vector2 mousePos =Raylib.GetMousePosition();
+
+        Raylib.DrawRectangle(0,0,200,40, Color.Black);
+        Raylib.DrawText($"{mousePos}",0,0,30, Color.White);
+
+    }
+
+    public static void DisplayHP(Player player, Enemy enemy)
+    {
+        Raylib.DrawRectangle(0,0,200,40, Color.Black);
+        Raylib.DrawText($"{player.hp}, {enemy.hp}",0,0,30, Color.White);
+    }
 }
+
+

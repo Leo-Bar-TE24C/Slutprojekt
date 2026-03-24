@@ -19,6 +19,7 @@ public class Player
     public int scale;
     public int attack;
     public bool isBlocking;
+    public int maxHealth;
 
     public Player()
     {
@@ -38,6 +39,7 @@ public class Player
         attack = 0;
         isBlocking = false;
         stunTime=0;
+        maxHealth=hp;
     }
 
     public static Player Idle(Player player)

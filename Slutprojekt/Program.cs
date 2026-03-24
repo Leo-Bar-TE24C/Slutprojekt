@@ -35,5 +35,8 @@ while(Raylib.WindowShouldClose() == false)
 
     Toolbox.Combat(glassJoe, litleMac);
 
+    // Toolbox.DisplayMousePos();
+    // Toolbox.DisplayHP(litleMac,glassJoe);
+
     Raylib.EndDrawing();
 }
