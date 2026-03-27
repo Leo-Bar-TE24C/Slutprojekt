@@ -1,4 +1,4 @@
-using System.Numerics;
+    using System.Numerics;
 using System.Runtime.CompilerServices;
 using Raylib_cs;
 
@@ -9,8 +9,9 @@ public class Toolbox
     {
 
         //    enemy
-
-
+        enemy = Enemy.StunCheck(enemy);
+        if (enemy.stunned == false)
+        {   
         if (enemy.isAttacking == true || enemy.timeSince >= enemy.cooldown)
         {
             enemy.animIdle = 0;
@@ -21,17 +22,18 @@ public class Toolbox
             enemy.timeSince++;
             enemy = Enemy.Idle(enemy);
         }
+        }
 
         // player
-        player = Toolbox.PayerChecks(player);
+        (enemy,player) = Toolbox.PayerChecks(player,enemy);
         
         Healthbar(342, player.hp, player.maxHealth, false);
-        // Healthbar(753, enemy.hp, enemy.maxHealth, true);
+        Healthbar(753, enemy.hp, enemy.maxHealth, true);
 
         return (enemy, player);
     }
 
-    public static Player PayerChecks(Player player)
+    public static (Enemy,Player) PayerChecks(Player player, Enemy enemy)
     {
         player = Player.StunCheck(player);
 
@@ -42,11 +44,11 @@ public class Toolbox
                 player.animIdle = 0;
                 if (Raylib.IsKeyDown(KeyboardKey.W) == true || player.attack == 1)
                 {
-                    player = Player.HighHitLeft(player);
+                    (enemy,player) = Player.HighHitLeft(player, enemy);
                 }
                 else
                 {
-                    player = Player.HitLeft(player);
+                    (enemy,player) = Player.HitLeft(player, enemy);
                 }
             }
             else if (Raylib.IsKeyPressed(KeyboardKey.K) == true || (player.isAttacking == true && (player.attack == 2 || player.attack == 3)))
@@ -54,11 +56,11 @@ public class Toolbox
                 player.animIdle = 0;
                 if (Raylib.IsKeyDown(KeyboardKey.W) == true || player.attack == 3)
                 {
-                    player = Player.HighHitRight(player);
+                    (enemy,player) = Player.HighHitRight(player, enemy);
                 }
                 else
                 {
-                    player = Player.HitRight(player);
+                    (enemy,player) = Player.HitRight(player, enemy);
                 }
             }
             else if ((Raylib.IsKeyPressed(KeyboardKey.A) || player.isDodgeingL) == true)
@@ -84,12 +86,12 @@ public class Toolbox
             }
         }
 
-        return player;
+        return (enemy,player);
     }
     public static void Healthbar(int posX, int health,int maxHealth, bool reverse)
     {
         // max widht = 190
-        float x = 190 - ((health/maxHealth)*190);
+        float x = 190 - ((float)health/(float)maxHealth*190);
         int width = (int)x;
         
 
@@ -101,8 +103,6 @@ public class Toolbox
         {
         Raylib.DrawRectangle(posX-width, 65, width, 30, Color.Black);  
         }   
-        Raylib.DrawRectangle(0,0,200,40, Color.Black);
-        Raylib.DrawText($"{x}",0,0,30, Color.White);
     }
 
     public static void DisplayMousePos()
@@ -119,6 +119,14 @@ public class Toolbox
         Raylib.DrawRectangle(0,0,200,40, Color.Black);
         Raylib.DrawText($"{player.hp}, {enemy.hp}",0,0,30, Color.White);
     }
+
+    public static void Win(int round, Player player)
+    {
+       round++;
+    }
+
+    public static void Lose()
+    {
+        
+    }
 }
-
-

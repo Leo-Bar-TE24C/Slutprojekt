@@ -24,6 +24,11 @@ public class Enemy
 
     public int maxHealth;
 
+    public bool stunned;
+
+    public int stunTime;
+
+
 
     public Enemy()
     {
@@ -35,7 +40,9 @@ public class Enemy
         animState = 0;
         animIdle = 0;
         cooldown = 60;
-        maxHealth=hp;
+        maxHealth = hp;
+        stunned = false;
+        stunTime = 0;
     }
 
     public static (Enemy, Player) Attack(Enemy enemy, Player player)
@@ -171,5 +178,19 @@ public class Enemy
             player.stunTime = 20;
         }
         return player;
+    }
+
+    public static Enemy StunCheck(Enemy enemy)
+    {
+        if (enemy.stunTime!=0)
+        {
+            enemy.stunTime--;
+            enemy.stunned = true;
+        }
+        else
+        {
+            enemy.stunned = false;
+        }
+        return enemy;
     }
 }

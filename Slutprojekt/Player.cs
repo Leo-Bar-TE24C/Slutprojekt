@@ -38,8 +38,8 @@ public class Player
         scale = 5;
         attack = 0;
         isBlocking = false;
-        stunTime=0;
-        maxHealth=hp;
+        stunTime = 0;
+        maxHealth = hp;
     }
 
     public static Player Idle(Player player)
@@ -83,12 +83,13 @@ public class Player
         }
         return player;
     }
-    public static Player HighHitLeft(Player player)
+    public static (Enemy, Player) HighHitLeft(Player player, Enemy enemy)
     {
         player.pos.Y = 350;
         if (player.animState <= 20)
         {
             Raylib.DrawTexturePro(player.spritesheet, new(88, 80 + 75, 24, 76), new(player.pos, 24 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+            enemy = DealDMG(enemy, player);
         }
 
         if (player.animState >= 20)
@@ -105,14 +106,15 @@ public class Player
             player.attack = 1;
         }
 
-        return player;
+        return (enemy, player);
     }
 
-    public static Player HitLeft(Player player)
+    public static (Enemy, Player) HitLeft(Player player, Enemy enemy)
     {
         if (player.animState <= 20)
         {
             Raylib.DrawTexturePro(player.spritesheet, new(407, 80, -25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+            enemy = DealDMG(enemy, player);
         }
 
         if (player.animState >= 20)
@@ -127,16 +129,17 @@ public class Player
             player.attack = 0;
         }
 
-        return player;
+        return (enemy, player);
     }
 
-    public static Player HighHitRight(Player player)
+    public static (Enemy, Player) HighHitRight(Player player, Enemy enemy)
     {
 
         player.pos.Y = 350;
         if (player.animState <= 20)
         {
             Raylib.DrawTexturePro(player.spritesheet, new(88, 80 + 75, -24, 76), new(player.pos, 24 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+            enemy = DealDMG(enemy, player);
         }
 
         if (player.animState >= 20)
@@ -153,14 +156,15 @@ public class Player
             player.attack = 3;
         }
 
-        return player;
+        return (enemy, player);
     }
 
-    public static Player HitRight(Player player)
+    public static (Enemy, Player) HitRight(Player player, Enemy enemy)
     {
         if (player.animState <= 20)
         {
             Raylib.DrawTexturePro(player.spritesheet, new(407, 80, 25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+            enemy = DealDMG(enemy, player);
         }
 
         if (player.animState >= 20)
@@ -175,7 +179,7 @@ public class Player
             player.attack = 2;
         }
 
-        return player;
+        return (enemy, player);
     }
 
     public static Player Dodge(Player player)
@@ -194,12 +198,12 @@ public class Player
             }
         }
 
-        if(player.animState>=30)
+        if (player.animState >= 30)
         {
             player.animState = 0;
             player.isDodgeingL = false;
             player.isDodgeingR = false;
-            player.pos.X =450;
+            player.pos.X = 450;
         }
         else
         {
@@ -210,10 +214,10 @@ public class Player
 
     public static Player Block(Player player)
     {
-        if (Raylib.IsKeyDown(KeyboardKey.S)==true)
+        if (Raylib.IsKeyDown(KeyboardKey.S) == true)
         {
-            player.isBlocking=true;
-            Raylib.DrawTexturePro(player.spritesheet, new(407 - 40-80, 80, 25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
+            player.isBlocking = true;
+            Raylib.DrawTexturePro(player.spritesheet, new(407 - 40 - 80, 80, 25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
 
         }
         else
@@ -225,7 +229,7 @@ public class Player
 
     public static Player StunCheck(Player player)
     {
-        if (player.stunTime!=0)
+        if (player.stunTime != 0)
         {
             player.stunTime--;
             player.stunned = true;
@@ -235,5 +239,25 @@ public class Player
             player.stunned = false;
         }
         return player;
+    }
+
+    public static Enemy DealDMG(Enemy enemy, Player player)
+    {
+        if (enemy.stunned == false)
+        {
+            if (player.pos.Y == 500)
+            {
+                enemy.hp -= player.lowDmg;
+                enemy.stunTime = 20;
+            }
+            else
+            {
+                enemy.hp -= player.highDmg;
+                enemy.stunTime = 20;
+            }
+        }
+
+
+        return enemy;
     }
 }
