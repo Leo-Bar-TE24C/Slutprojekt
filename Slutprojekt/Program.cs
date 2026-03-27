@@ -8,6 +8,7 @@ Texture2D ring = Raylib.LoadTexture(@"PunchOutRing.png");
 Enemy glassJoe = new Enemy();
 Player litleMac = new Player();
 
+// enemies for different rounds
 List<Enemy> enemyList = [glassJoe, ];
 
 

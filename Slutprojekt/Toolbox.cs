@@ -120,9 +120,12 @@ public class Toolbox
         Raylib.DrawText($"{player.hp}, {enemy.hp}",0,0,30, Color.White);
     }
 
-    public static void Win(int round, Player player)
+    public static Player Win(int round, Player player)
     {
        round++;
+       player.hp = player.maxHealth;
+
+       return player;
     }
 
     public static void Lose()
