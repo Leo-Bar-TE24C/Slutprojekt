@@ -33,13 +33,18 @@ while(Raylib.WindowShouldClose() == false)
     // Enemy.Idle(glassJoe);
     // Player.HitRight(litleMac);
     // Player.HighHitLeft(litleMac);
-    
+    // Raylib.DrawTexturePro(enemy.spritesheet, new(48, 880, 56, 96), new(enemy.pos, enemy.scale * 56, enemy.scale * 96), new(71 / 2, 770 / 2), 0, Color.White);
+    // Raylib.DrawTexturePro(enemy.spritesheet, new(190, 528, 39, 110), new(enemy.pos, 39 * enemy.scale, 110 * enemy.scale), new(71 / 2, 770 / 2), 0, Color.White);
+
+
     // Raylib.DrawTexturePro(player.spritesheet, new(407 - 40, 80, -25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
 
 
-    Toolbox.Combat(enemyList[round], litleMac);
+    round = Toolbox.Combat(enemyList[round], litleMac, round).Item3;
 
-    (round, litleMac)= Toolbox.Win(round, litleMac);
+    // Raylib.DrawTexturePro(player.spritesheet,  new(88+38, 80+160, 28, 76), new(player.pos, 28 * player.scale, 76 * player.scale), new(28 / 2, 76 / 2), 0, Color.White);
+
+    
     // Toolbox.DisplayMousePos();
     // Toolbox.DisplayHP(litleMac,glassJoe);
 

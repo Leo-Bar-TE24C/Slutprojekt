@@ -5,7 +5,7 @@ using Raylib_cs;
 public class Toolbox
 {
 
-    public static (Enemy, Player) Combat(Enemy enemy, Player player)
+    public static (Enemy, Player, int) Combat(Enemy enemy, Player player , int round)
     {
 
         //    enemy
@@ -23,20 +23,29 @@ public class Toolbox
                 enemy = Enemy.Idle(enemy);
             }
         }
+        else
+        {
+            Enemy.Hurt(enemy, player);
+        }
 
         // player
-        (enemy, player) = Toolbox.PayerChecks(player, enemy);
+        (enemy, player, round) = Toolbox.PayerChecks(player, enemy, round);
 
         Healthbar(342, player.hp, player.maxHealth, false);
         Healthbar(753, enemy.hp, enemy.maxHealth, true);
 
-        return (enemy, player);
+        return (enemy, player, round);
     }
 
-    public static (Enemy, Player) PayerChecks(Player player, Enemy enemy)
+    public static (Enemy, Player, int) PayerChecks(Player player, Enemy enemy, int round)
     {
         player = Player.StunCheck(player);
 
+        if (player.hp <= 0)
+        {
+            (round, player)= Toolbox.Lose(round, player);
+        }
+        
         if (player.stunned == false)
         {
             if (Raylib.IsKeyPressed(KeyboardKey.J) == true || (player.isAttacking == true && (player.attack == 0 || player.attack == 1)))
@@ -85,8 +94,17 @@ public class Toolbox
                 player = Player.Idle(player);
             }
         }
+        else
+        {
+            Player.Hurt(player);
+        }
 
-        return (enemy, player);
+        if (enemy.hp <= 0)
+        {
+            (round, player)= Toolbox.Win(round, player);
+        }
+
+        return (enemy, player, round);
     }
     public static void Healthbar(int posX, int health, int maxHealth, bool reverse)
     {

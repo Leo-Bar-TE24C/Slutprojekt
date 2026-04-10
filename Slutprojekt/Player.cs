@@ -188,7 +188,7 @@ public class Player
 
     public static Player Dodge(Player player)
     {
-        if (player.animState <= 30)
+        if (player.animState <= 40)
         {
             if (player.isDodgeingL == true)
             {
@@ -202,7 +202,7 @@ public class Player
             }
         }
 
-        if (player.animState >= 30)
+        if (player.animState >= 40)
         {
             player.animState = 0;
             player.isDodgeingL = false;
@@ -263,5 +263,10 @@ public class Player
 
 
         return enemy;
+    }
+
+    public static void Hurt(Player player)
+    {
+        Raylib.DrawTexturePro(player.spritesheet,  new(88+38, 80+160, 28, 76), new(player.pos, 28 * player.scale, 76 * player.scale), new(28 / 2, 76 / 2), 0, Color.White);
     }
 }
