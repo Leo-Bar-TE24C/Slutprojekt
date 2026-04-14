@@ -132,6 +132,7 @@ public class Toolbox
 
     }
 
+
     public static void DisplayHP(Player player, Enemy enemy)
     {
         Raylib.DrawRectangle(0, 0, 200, 40, Color.Black);
@@ -152,5 +153,25 @@ public class Toolbox
         player.hp = player.maxHealth;
         player.lose = false;
         return (round, player);
+    }
+    public static void Display(int x)
+    {
+        Raylib.DrawRectangle(0, 0, 200, 40, Color.Black);
+        Raylib.DrawText($"{x}", 0, 0, 30, Color.White);
+    }
+    public static void Display(string x)
+    {
+        Raylib.DrawRectangle(0, 0, 200, 40, Color.Black);
+        Raylib.DrawText($"{x}", 0, 0, 30, Color.White);
+    }
+    public static void Display(int x, int y)
+    {
+        Raylib.DrawRectangle(0, 0, 200, 40, Color.Black);
+        Raylib.DrawText($"{x}, {y}", 0, 0, 30, Color.White);
+    }
+    public static void Display(bool x)
+    {
+        Raylib.DrawRectangle(0, 0, 200, 40, Color.Black);
+        Raylib.DrawText($"{x}", 0, 0, 30, Color.White);
     }
 }

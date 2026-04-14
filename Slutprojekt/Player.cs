@@ -28,8 +28,8 @@ public class Player
         spritesheet = Raylib.LoadTexture(@"LittleMac.png");
         isDodgeingR = false;
         isDodgeingL = false;
-        lowDmg = 1;
-        highDmg = 3;
+        lowDmg = 3;
+        highDmg = 6;
         hp = 100;
         stunned = false;
         animState = 0;

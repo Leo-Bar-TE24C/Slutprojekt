@@ -35,7 +35,7 @@ public class Enemy
     public Enemy()
     {
         spritesheet = Raylib.LoadTexture(@"PunchOutGlassJoe.gif");
-        dmg = 5;
+        dmg = 20;
         hp = 150;
         moveset = ["Right hook", "Viva la france"];
         isAttacking = false;
@@ -178,8 +178,16 @@ public class Enemy
     {
         if ((player.isDodgeingL || player.isDodgeingR || player.stunned) == false)
         {
-            player.hp -= enemy.dmg;
-            player.stunTime = 20;
+            if (player.isBlocking == true )
+            {
+                player.hp -= enemy.dmg / 3;
+                player.stunTime = 20;
+            }
+            else
+            {
+                player.hp -= enemy.dmg;
+                player.stunTime = 20;
+            }
         }
         return player;
     }
@@ -210,7 +218,7 @@ public class Enemy
         }
         else
         {
-            Raylib.DrawTexturePro(enemy.spritesheet, new(48+130, 880, 56, 96), new(enemy.pos, enemy.scale * 56, enemy.scale * 96), new(71 / 2, 770 / 2), 0, Color.White);
+            Raylib.DrawTexturePro(enemy.spritesheet, new(48 + 130, 880, 56, 96), new(enemy.pos, enemy.scale * 56, enemy.scale * 96), new(71 / 2, 770 / 2), 0, Color.White);
         }
     }
 }
