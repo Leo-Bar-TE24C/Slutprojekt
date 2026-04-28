@@ -46,6 +46,7 @@ while (Raylib.WindowShouldClose() == false)
     {
         Raylib.ClearBackground(Color.Blue);
         Raylib.DrawTexturePro(glassJoe.spritesheet, new(128, 0, 56, 56), new(500,500, 280, 280), new(280/2,280/2), 0, Color.White);
+        Raylib.DrawText("A WINNER IS YOU!", 30, 300, 100, Color.Yellow);
     }
 
     Toolbox.Display(round, enemyList.Count);
