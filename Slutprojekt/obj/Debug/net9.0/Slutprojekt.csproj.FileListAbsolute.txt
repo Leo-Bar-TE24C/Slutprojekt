@@ -25,3 +25,4 @@ C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\bin
 C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\bin\Debug\net9.0\PunchOutRing.png
 C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\bin\Debug\net9.0\PunchOutGlassJoe.gif
 C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\bin\Debug\net9.0\VonKaizer.gif
+C:\Users\leonardo.barajasrio\Documents\Programering1\Slutprojekt\Slutprojekt\bin\Debug\net9.0\punchOutKeys.png

@@ -1,4 +1,6 @@
-﻿using System.Runtime.Intrinsics.X86;
+﻿using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Runtime.Intrinsics.X86;
 using Raylib_cs;
 
 Raylib.InitWindow(1000, 1000, "Punch Out");
@@ -6,11 +8,22 @@ Raylib.SetTargetFPS(60);
 
 Texture2D ring = Raylib.LoadTexture(@"PunchOutRing.png");
 
+
 Enemy glassJoe = new Enemy();
 Player litleMac = new Player();
 Enemy vonKaizer = new VonKaizer();
 int round = 0;
 
+// variables for menu
+
+Rectangle start = new(400, 500, 220, 50);
+bool menu = true;
+
+Rectangle controls = new(400, 600, 220, 50);
+Rectangle back = new(400, 800, 220, 50);
+bool showControls = false;
+
+Texture2D keybinds = Raylib.LoadTexture(@"punchOutKeys.png");
 // enemies for different rounds
 List<Enemy> enemyList = [glassJoe, vonKaizer];
 
@@ -24,37 +37,40 @@ while (Raylib.WindowShouldClose() == false)
 
     Raylib.BeginDrawing();
 
-
-    // Player.Idle(litleMac.spritesheet);
-    // glassJoe.animState=Enemy.RightHook(glassJoe.spritesheet, glassJoe.animState);
-    // Enemy.Idle(glassJoe);
-    // Player.HitRight(litleMac);
-    // Player.HighHitLeft(litleMac);
-    // Raylib.DrawTexturePro(enemy.spritesheet, new(48, 880, 56, 96), new(enemy.pos, enemy.scale * 56, enemy.scale * 96), new(71 / 2, 770 / 2), 0, Color.White);
-    // Raylib.DrawTexturePro(enemy.spritesheet, new(190, 528, 39, 110), new(enemy.pos, 39 * enemy.scale, 110 * enemy.scale), new(71 / 2, 770 / 2), 0, Color.White);
-
-
-    // Raylib.DrawTexturePro(player.spritesheet, new(407 - 40, 80, -25, 76), new(player.pos, 25 * player.scale, 76 * player.scale), new(24 / 2, 76 / 2), 0, Color.White);
-
-
-    if (round < enemyList.Count)
+    if (showControls == true)
     {
-    Raylib.DrawTextureEx(ring, new(0, 0), 0, 4.45f, Color.White);
+        Raylib.ClearBackground(Color.Blue);
+        Raylib.DrawTextureEx(keybinds, new(150,300), 0, 3,Color.White);
+        Raylib.DrawText("Dodge",60,450,35,Color.White);
+        Raylib.DrawText("Dodge",460,450,35,Color.White);
+        Raylib.DrawText("Aim up",260,300,35,Color.White);
+        Raylib.DrawText("Block",260,550,35,Color.White);
+        Raylib.DrawText("Punch left",600,340,35,Color.White);
+        Raylib.DrawText("Punch right",630,550,35,Color.White);
+        showControls = Toolbox.Button(showControls, back, "Back", 450, 800, 50);
+    }
+    else if (menu == true)
+    {
+        Raylib.ClearBackground(Color.Blue);
+        Raylib.DrawTexturePro(glassJoe.spritesheet, new(128, 0, 56, 56), new(500, 300, 280, 280), new(280 / 2, 280 / 2), 0, Color.White);
+        menu = Toolbox.Button(menu, start, "Start", 450, 500, 50);
+        showControls = Toolbox.Button(showControls, controls, "Controls", 410, 600, 50);
+
+    }
+    else if (round < enemyList.Count)
+    {
+        Raylib.DrawTextureEx(ring, new(0, 0), 0, 4.45f, Color.White);
         round = Toolbox.Combat(enemyList[round], litleMac, round).Item3;
     }
     else
     {
         Raylib.ClearBackground(Color.Blue);
-        Raylib.DrawTexturePro(glassJoe.spritesheet, new(128, 0, 56, 56), new(500,500, 280, 280), new(280/2,280/2), 0, Color.White);
+        Raylib.DrawTexturePro(glassJoe.spritesheet, new(128, 0, 56, 56), new(500, 500, 280, 280), new(280 / 2, 280 / 2), 0, Color.White);
         Raylib.DrawText("A WINNER IS YOU!", 30, 300, 100, Color.Yellow);
     }
 
-    Toolbox.Display(round, enemyList.Count);
-    // Raylib.DrawTexturePro(player.spritesheet,  new(88+38, 80+160, 28, 76), new(player.pos, 28 * player.scale, 76 * player.scale), new(28 / 2, 76 / 2), 0, Color.White);
-
-
     // Toolbox.DisplayMousePos();
-    // Toolbox.DisplayHP(litleMac,glassJoe);
+    // Toolbox.Display(menu);
 
     Raylib.EndDrawing();
 }

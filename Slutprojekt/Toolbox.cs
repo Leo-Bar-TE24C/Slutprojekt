@@ -174,4 +174,29 @@ public class Toolbox
         Raylib.DrawRectangle(0, 0, 200, 40, Color.Black);
         Raylib.DrawText($"{x}", 0, 0, 30, Color.White);
     }
+
+    public static bool Button(bool x, Rectangle rec, string name,int posX, int posY, int fontSize)
+{
+    if (Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), rec) == true)
+    {
+        Raylib.DrawText(name, posX, posY, fontSize, Color.White);
+        if (Raylib.IsMouseButtonDown(MouseButton.Left) == true)
+        {
+            if (x == true)
+            {
+                x = false;
+            }
+            else
+            {
+                x = true;
+            }
+        }
+    }
+    else
+    {
+        Raylib.DrawText(name, posX, posY, fontSize, Color.Yellow);
+    }
+
+    return x;
+}
 }
